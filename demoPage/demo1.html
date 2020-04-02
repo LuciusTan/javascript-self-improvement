@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>变量、作用域</title>
+    
+</head>
+<body>
+	<button>1</button>
+	<button>2</button>
+	<button>3</button>
+    <script type="text/javascript">
+//     var btns = document.getElementsByTagName('button');
+//          for (var i = 0; i < 3; i++) {
+//             	btns[i].onclick = function () {
+// 		    	alert(i + 1);
+// 	    	};
+// 	   }
+//     弹出 4 4 4
+//在此处修改代码，先触发再绑定
+        var btns = document.getElementsByTagName('button');
+        for(var i =0; i<btns.length;i++){
+          function clickBtn(i){
+            btns[i].onclick = function(){
+              alert(i+1)
+            }
+          }
+          clickBtn(i);
+        }
+    </script>
+</body>
+</html>
