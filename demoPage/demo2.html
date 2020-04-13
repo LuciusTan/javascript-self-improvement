@@ -1,0 +1,23 @@
+<!DOCTYPE html> 
+<html lang="zh-CN"> 
+<head> 
+    <meta charset="UTF-8" /> 
+    <title></title> 
+</head> 
+<body> 
+    <script> 
+    //在此处补充代码
+    var data = [2, 4, 1, -1, 56, 3, -7];
+    function min(){
+        if(arguments.length === 0) return;
+        var minNum;
+        for (var i in arguments) {
+            minNum <= arguments[i] ? minNum = minNum : minNum=arguments[i];
+        }
+        return minNum;
+    }
+    console.log(min.apply(this, data));
+
+    </script> 
+</body> 
+</html>
