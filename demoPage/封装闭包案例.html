@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5-4</title>
+</head>
+<body>
+<script>
+
+//封装的最大好处就是一次定义多次使用（调用）；比如该例子中，定义完student这个函数后，如果需要创建多个对象，只需多次调用传参就可以了，如下：
+//另外这样封装也是模拟了面向对象的思想，即student这个函数书写完成后，对外只暴露了student.set和student.get两个方法；其他人在使用时，只需要调用这两个方法就能获取到想要的对象，而不用去关注student内部是怎么实现的。
+function Student(){
+    var stdAttr = {};
+
+    this.setAttr = function(arguments) {
+      for(var k in arguments){
+        stdAttr[k] = arguments[k];
+      }
+    }
+    this.getAttr = function(){
+        return stdAttr;
+    }
+
+}
+
+var zy = new Student();
+zy.setAttr({name:'张宇',sex:'男',age:'18'});
+//无法直接访问stdAttr console.log(zy.stdAttr)
+console.log(zy.getAttr());
+
+
+var xm = new Student();
+xm.setAttr({name:'小明',sex:'女',age:'23',sayHi:function(){alert("hello")}})
+console.log(xm.getAttr());
+xm.getAttr().sayHi();
+
+
+</script>
+</body>
+</html>
