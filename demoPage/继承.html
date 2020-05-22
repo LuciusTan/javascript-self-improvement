@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>继承</title>
+    <style>
+      body {
+        background-color: #eee;
+      }
+      #calculator {
+        margin: 100px 0 0 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      //原型继承
+      function Animal(name, num) {
+        this.name = name;
+        this.num = num;
+        this.getInfo = function () {
+          alert(this.name + this.num);
+        };
+      }
+
+      function Cat() {}
+      Cat.prototype = new Animal("cat", 10);
+
+      var cc = new Cat();
+      cc.getInfo();
+
+
+			//构造函数继承
+			function Dog(name, num){
+				this.dObj = Animal;
+				this.dObj(name,num);
+			}
+			var dd = new Dog('dog',20);
+			dd.getInfo();
+			//构造函数继承的call和apply方法
+			function Pig(name, num){
+				Animal.call(this,name,num)
+			}
+			var pp = new Pig('pig',30);
+			pp.getInfo();
+
+			function Sheep(name, num){
+				Animal.apply(this, [name,num])
+			}
+			var ss = new Sheep('sheep',40);
+			ss.getInfo();
+    </script>
+  </body>
+</html>
