@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AjaxTest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        .banner {
+            width: 600px;
+            height: 338px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto;
+
+        }
+        .banner a {
+            display: block;
+            float: left;
+            width: 600px;
+            height: 338px;
+        }
+        .banner a img {
+            display: block;
+            width: 600px;
+            height: 338px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="banner" id="banner"></div>
+    <script>
+        // 封装通用的xhr对象，目的兼容各个版本浏览器
+        function createXHR() {
+            //判断浏览器是否将XHR作为本地对象实现，针对IE7,火狐, opera
+            if (typeof XMLHttpRequest != "undefined") {
+                return new XMLHttpRequest();
+            } else if (typeof ActiveXObject != "undefined") {
+                //将所有可能出现的ActiveXObject版本放在数组内
+                var xhrArr = ["Microsoft.XMLHTTP", "MSXML2.XMLHTTP.6.0", "MSXML2.XMLHTTP.5.0", "MSXML2.XMLHTTP.4.0", "MSXML2.XMLHTTP.3.0", "MSXML2.XMLHTTP.2.0"];
+                //遍历创建XMLHttpRequest对象
+                var len = xhrArr.length;
+                for (var i = 0; i < len; i++) {
+                    try {
+                        xhr = new ActiveXObject(xhrArr[i]);
+                        break;
+                    }
+                    catch (ex) {
+
+                    }
+                }
+                return xhr;
+            } else {
+                throw new Error('No XHR object available')
+            }
+
+        };
+        //第一步 创建XMLHttpRequest 对象
+        var xhr = createXHR();
+            
+        //第三步 - 一般写在第一步后面
+        xhr.onreadystatechange  =function(){
+            //异步调用成功, 响应完成, 解析完成, 意味着可以在客户端调用
+            if(xhr.readyState === 4){
+                if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304){
+                    //第五步 获取返回的数据
+                    //console.log(xhr.responseText)
+                    //转变成对象
+                    //console.log(eval("("+xhr.responseText+")"));
+                    //eval()可以执行不符合JSON格式的代码，有可能会包含恶意代码，建议少用
+                    //data = eval("("+xhr.responseText+")");
+                    data = JSON.parse(xhr.responseText);
+
+                    //第六步 渲染数据
+                    renderDataToDom();
+                }
+            }
+        }
+
+
+        //第二步
+        xhr.open("get","./server/slider.json",true);
+
+        //第四步 发送请求
+        //POST xhr.send({"username":"xm",id: 123});
+        //xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+
+        xhr.send(null);
+
+        function renderDataToDom(){
+            var img = data.slider,i,len = img.length, banner = document.getElementById("banner"), str = "";
+            for(var i=0;i<len;i++){
+                // var a = document.createElement("a");
+                // a.href = .....;
+                // a.innerHTML = "......"
+                // banner.appendChild(a)
+                str += '<a href = "'+img[i].linkUrl+'"><img src="'+img[i].picUrl+'"></a>';
+            }
+            console.log(str)
+            banner.innerHTML = str;
+        }
+
+    </script>
+</body>
+
+</html>
